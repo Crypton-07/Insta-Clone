@@ -5,7 +5,9 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const bcrypt = require('bcryptjs')  //bcrypt is used to hash the password
-
+const jwt = require('jsonwebtoken') //jwt is used to give token. It allow user to access protected data
+const {JWT_Secret} = require('../keys')
+ 
 // router.get('/',(req,res)=>{
 //     res.send("Hello Vishesh")
 // })
@@ -62,7 +64,9 @@ router.post('/signin',(req, res)=>{
         bcrypt.compare(password, savedUser.password) //here we are comparing the password of user.
         .then(doMatch=>{                            //Here we will match the password. It is correct or not.
             if(doMatch){
-                return res.status(422).json({message:"Successfull Sign-in."})
+                // return res.status(422).json({message:"Successfully Sign-in."})
+                const token = jwt.sign({_id:savedUser._id},JWT_Secret)
+                res.json({token})
             }
             else{
                 return res.status(422).json({error:"Please enter valid email or password!!"})
