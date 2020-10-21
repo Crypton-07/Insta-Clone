@@ -7,11 +7,16 @@ const User = mongoose.model('User')
 const bcrypt = require('bcryptjs')  //bcrypt is used to hash the password
 const jwt = require('jsonwebtoken') //jwt is used to give token. It allow user to access protected data
 const {JWT_Secret} = require('../keys')
+const requireLogin = require('../middleware/requireLogin')
  
 // router.get('/',(req,res)=>{
 //     res.send("Hello Vishesh")
 // })
 
+router.get('/protected',requireLogin,(req, res)=>{
+    res.send("Hello User!")
+})
+//Below code is about user sign up!
 router.post('/signup',(req, res)=>{
     const {name,email,password} = req.body
     if(!name || !email || !password){
@@ -50,6 +55,7 @@ router.post('/signup',(req, res)=>{
     })
 
 })
+
 
 router.post('/signin',(req, res)=>{
     const {email,password} =req.body
