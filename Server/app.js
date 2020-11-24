@@ -5,11 +5,7 @@ const mongoose = require('mongoose')
 const PORT = 5000
 const {MONGOURI} = require('./keys') //the cluster that i have created in keys.js
 
-require('./model/user')             // import user Schema 
 
-app.use(express.json())           //Used to send the request.
-
-app.use(require('./route/auth'))   //That is how we register route. Basically it imports auth.js file.
 
 
 //Now Connecting to our DB i.e. Mongodb
@@ -19,12 +15,21 @@ mongoose.connect(MONGOURI,{
 
 })
 mongoose.connection.on('connected',()=>{
-    console.log('Connected to mongo.')
+    console.log('Connected to mongo!')
 })
 mongoose.connection.on('error',(err)=>{
     console.log('error connencting to Mongo',err)
 })
-//Connection esatblishedS
+//Connection esatblished
+
+require('./model/user')             // import user Schema 
+require('./model/post')            // Import Post Schema 
+app.use(express.json())           //Used to send the request.
+
+app.use(require('./route/auth'))   //That is how we register route. Basically it imports auth.js file.
+app.use(require('./route/post'))
+
+
 
 
 

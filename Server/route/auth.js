@@ -1,5 +1,5 @@
 //This file is about authentication of user.
-const { request, response } = require('express')
+// const { request, response } = require('express')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
@@ -8,14 +8,8 @@ const bcrypt = require('bcryptjs')  //bcrypt is used to hash the password
 const jwt = require('jsonwebtoken') //jwt is used to give token. It allow user to access protected data
 const {JWT_Secret} = require('../keys')
 const requireLogin = require('../middleware/requireLogin')
- 
-// router.get('/',(req,res)=>{
-//     res.send("Hello Vishesh")
-// })
 
-router.get('/protected',requireLogin,(req, res)=>{
-    res.send("Hello User!")
-})
+
 //Below code is about user sign up!
 router.post('/signup',(req, res)=>{
     const {name,email,password} = req.body
